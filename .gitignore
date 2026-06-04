@@ -1,0 +1,18 @@
+# Local runtime data
+captures/
+browser-profiles/
+behavior_worklogs/
+behavior_catalog/
+reports/
+notes/
+
+# Extracted/private payloads
+request.json
+response.json
+*.log
+*.jsonl
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
