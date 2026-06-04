@@ -65,10 +65,13 @@ Then extract payloads:
 
 ```powershell
 $project = "<project-root>"
-node "$project\skills\cyber-classifier-workflow\scripts\extract_sse_payloads.js" `
+$skill = "<skill-root>"
+node "$skill\scripts\extract_sse_payloads.js" `
   --in "$project\captures\burp_sse\raw\latest.txt" `
   --out-dir "$project\captures\burp_sse\payload"
 ```
+
+When running from an installed Codex skill, resolve `<skill-root>` to this skill folder. It is usually under `%USERPROFILE%\.codex\skills\cyber-classifier-workflow` on Windows.
 
 The script writes only:
 

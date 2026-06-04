@@ -32,8 +32,6 @@ cyber classifier/
     99_templates/
   tools/
     chrome_cdp/
-  skills/
-    cyber-classifier-workflow/
 ```
 
 ## Numbering Rules

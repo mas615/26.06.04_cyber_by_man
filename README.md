@@ -7,9 +7,9 @@ Codex skill for a Gray Swan Arena Cyber Bypass or similar cyber-classifier lab w
 Clone this repository, then copy the cloned folder into your Codex skills directory as `cyber-classifier-workflow`:
 
 ```powershell
-git clone https://github.com/mas615/26.06.04_cyber_by_man.git
+git clone https://github.com/mas615/26.06.04_cyber_by_man.git cyber-classifier-workflow
 New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.codex\skills"
-Copy-Item -Recurse -Force ".\26.06.04_cyber_by_man" "$env:USERPROFILE\.codex\skills\cyber-classifier-workflow"
+Copy-Item -Recurse -Force ".\cyber-classifier-workflow" "$env:USERPROFILE\.codex\skills\"
 ```
 
 Restart Codex after installing the skill.
