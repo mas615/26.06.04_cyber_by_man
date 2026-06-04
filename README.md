@@ -16,8 +16,7 @@ Windows PowerShell에서 아래 명령어를 실행하세요.
 
 ```powershell
 git clone https://github.com/mas615/26.06.04_cyber_by_man.git cyber-classifier-workflow
-New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.codex\skills"
-Copy-Item -Recurse -Force ".\cyber-classifier-workflow" "$env:USERPROFILE\.codex\skills\"
+powershell -NoProfile -ExecutionPolicy Bypass -File .\cyber-classifier-workflow\install.ps1
 ```
 
 설치 후 Codex를 재시작해야 새 skill이 인식됩니다.
@@ -36,6 +35,7 @@ Copy-Item -Recurse -Force ".\cyber-classifier-workflow" "$env:USERPROFILE\.codex
 - `SKILL.md`: skill trigger metadata와 핵심 workflow.
 - `references/`: Chrome CDP, capture/parsing, behavior discovery, storage layout, experiment 기록 방식.
 - `scripts/`: 프로젝트 폴더 생성과 SSE payload 추출을 돕는 helper script.
+- `install.ps1`: 현재 repo를 Codex 사용자 skill 폴더에 설치하는 PowerShell script.
 
 ## 업데이트 방법
 
@@ -44,8 +44,7 @@ Copy-Item -Recurse -Force ".\cyber-classifier-workflow" "$env:USERPROFILE\.codex
 ```powershell
 Set-Location .\cyber-classifier-workflow
 git pull
-Set-Location ..
-Copy-Item -Recurse -Force ".\cyber-classifier-workflow" "$env:USERPROFILE\.codex\skills\"
+powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1
 ```
 
 업데이트 후에도 Codex 재시작이 필요합니다.
