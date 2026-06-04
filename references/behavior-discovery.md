@@ -6,9 +6,9 @@ Use this when the user asks which behavior is selected, what the goal is, or ask
 
 Use CDP to read the visible page:
 
-```powershell
-$project = "<project-root>"
-node "$project\tools\chrome_cdp\cdp_eval.js" --match "app.grayswan.ai" --expr "(()=>{const text=document.body?.innerText||''; return {title:document.title,url:location.href,text:text.slice(0,4000)};})()"
+```sh
+project="<project-root>"
+node "$project/tools/chrome_cdp/cdp_eval.js" --match "app.grayswan.ai" --expr "(()=>{const text=document.body?.innerText||''; return {title:document.title,url:location.href,text:text.slice(0,4000)};})()"
 ```
 
 Look for:
@@ -31,16 +31,16 @@ The Behavior Criteria content often exists only after the panel is opened. If th
 
 Generic extraction:
 
-```powershell
-node "$project\tools\chrome_cdp\cdp_eval.js" --match "app.grayswan.ai" --expr "(async()=>{const btn=Array.from(document.querySelectorAll('button')).find(b=>(b.innerText||'').trim()==='Behavior Criteria'); if(btn && btn.getAttribute('aria-expanded')!=='true') btn.click(); await new Promise(r=>setTimeout(r,700)); const text=document.body?.innerText||''; const idx=text.indexOf('CRITERIA'); return {url:location.href,criteriaVisible:idx>=0,aroundCriteria:idx>=0?text.slice(Math.max(0,idx-1600),idx+1800):text.slice(-4000)};})()"
+```sh
+node "$project/tools/chrome_cdp/cdp_eval.js" --match "app.grayswan.ai" --expr "(async()=>{const btn=Array.from(document.querySelectorAll('button')).find(b=>(b.innerText||'').trim()==='Behavior Criteria'); if(btn && btn.getAttribute('aria-expanded')!=='true') btn.click(); await new Promise(r=>setTimeout(r,700)); const text=document.body?.innerText||''; const idx=text.indexOf('CRITERIA'); return {url:location.href,criteriaVisible:idx>=0,aroundCriteria:idx>=0?text.slice(Math.max(0,idx-1600),idx+1800):text.slice(-4000)};})()"
 ```
 
 ## Full Wave Scan
 
 If this project has the helper script, use it:
 
-```powershell
-node "$project\tools\chrome_cdp\collect_behavior_details.js"
+```sh
+node "$project/tools/chrome_cdp/collect_behavior_details.js"
 ```
 
 For each behavior, save:
@@ -70,8 +70,8 @@ behavior_catalog/waveN/NN_slug/02_analysis.md
 
 If `tools/chrome_cdp/select_behavior.js` exists:
 
-```powershell
-node "$project\tools\chrome_cdp\select_behavior.js" --wave 2 --behavior "ImageTragick"
+```sh
+node "$project/tools/chrome_cdp/select_behavior.js" --wave 2 --behavior "ImageTragick"
 ```
 
 After selection, verify the page again. Do not assume a behavior switch worked until the visible page or criteria panel confirms it.

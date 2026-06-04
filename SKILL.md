@@ -1,6 +1,6 @@
 ---
 name: cyber-classifier-workflow
-description: "Use when working on a Gray Swan Arena Cyber Bypass or similar cyber-classifier lab session: start Chrome with remote debugging on Windows, ask the user to log in, capture chat/network/SSE api_trace data, parse request and response payloads, collect behavior criteria, configure safe system prompt/script tool/LLM tool experiments, and organize numbered reports and behavior worklogs under the project folder."
+description: "Use when working on a Gray Swan Arena Cyber Bypass or similar cyber-classifier lab session: start Chrome with remote debugging on macOS, Windows, or Linux, ask the user to log in, capture chat/network/SSE api_trace data, parse request and response payloads, collect behavior criteria, configure safe system prompt/script tool/LLM tool experiments, and organize numbered reports and behavior worklogs under the project folder."
 ---
 
 # Cyber Classifier Workflow
@@ -13,16 +13,16 @@ Use this skill to onboard a fresh Codex session into the same collaboration work
 - Never ask the user for passwords, magic links, cookies, JWTs, or session tokens. Start the browser and ask the user to log in manually.
 - Preserve raw captures separately from analysis. Do not add arbitrary wrapper fields to extracted `request.json` or `response.json`.
 - Keep all new reports numbered. Keep broad conclusions in the overall log and detailed attempts in behavior-specific logs.
-- Treat the environment as an authorized lab/challenge. Record evidence and analysis; do not invent exploit payloads, jailbreak templates, or harmful operational steps.
 
 ## Standard Flow
 
 1. Confirm or create the project layout.
    - Read `references/storage-layout.md`.
-   - If needed, run `scripts/ensure_project_layout.ps1`.
+   - On macOS/Linux, run `scripts/ensure_project_layout.sh`.
+   - On Windows or PowerShell Core, run `scripts/ensure_project_layout.ps1`.
 
 2. Start or attach to Chrome CDP.
-   - Read `references/windows-chrome-cdp.md`.
+   - Read `references/chrome-cdp.md`.
    - Start Chrome with `--remote-debugging-port=9222`.
    - Ask the user to complete login in the browser.
 
@@ -49,12 +49,13 @@ Use this skill to onboard a fresh Codex session into the same collaboration work
 ## Reference Map
 
 - `references/storage-layout.md`: folder structure, numbering, log split, file naming.
-- `references/windows-chrome-cdp.md`: Windows Chrome debug launch, login handoff, CDP verification.
+- `references/chrome-cdp.md`: macOS-first Chrome debug launch, Windows/Linux alternatives, login handoff, CDP verification.
 - `references/chat-capture-parsing.md`: chat flow, network watcher, Burp/SSE parsing, `api_trace` meaning.
 - `references/behavior-discovery.md`: behavior selection, criteria extraction, catalog generation.
 - `references/customizations-and-experiments.md`: system prompt, script tools, LLM tools, tags, attempt design.
 
 ## Included Scripts
 
-- `scripts/ensure_project_layout.ps1`: creates the expected project folders and starter logs.
+- `scripts/ensure_project_layout.sh`: creates the expected project folders and starter logs on macOS/Linux.
+- `scripts/ensure_project_layout.ps1`: creates the expected project folders and starter logs from PowerShell.
 - `scripts/extract_sse_payloads.js`: extracts only `payload.request` and `payload.response` from raw SSE text into `request.json` and `response.json`.

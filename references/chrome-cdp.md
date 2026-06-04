@@ -1,14 +1,44 @@
-# Windows Chrome CDP Setup
+# Chrome CDP Setup
 
 Use Chrome remote debugging when the user wants Codex to observe the logged-in browser flow and network-level chat responses.
 
-## Start Chrome
+Prefer the command for the current OS. Keep the debug profile inside the user-approved project root.
+
+## Start Chrome On macOS
 
 Ask the user to close any debug Chrome instance if port `9222` is already in use, or launch a separate profile:
 
+```sh
+project="<project-root>"
+profile="$project/browser-profiles/chrome-cdp"
+mkdir -p "$profile"
+
+chrome="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+if [ ! -x "$chrome" ]; then
+  echo "Chrome executable not found at $chrome" >&2
+  exit 1
+fi
+
+"$chrome" \
+  --remote-debugging-port=9222 \
+  --remote-debugging-address=127.0.0.1 \
+  --user-data-dir="$profile" \
+  --no-first-run \
+  --no-default-browser-check \
+  "https://app.grayswan.ai/arena/challenge/cyber-bypass/chat" &
+```
+
+Then tell the user:
+
+```text
+Chrome 창에서 Gray Swan에 직접 로그인해줘. 비밀번호나 인증 링크는 나에게 보내지 않아도 돼.
+```
+
+## Start Chrome On Windows
+
 ```powershell
 $project = "<project-root>"
-$profile = Join-Path $project "browser-profiles\chrome-cdp"
+$profile = Join-Path $project "browser-profiles/chrome-cdp"
 New-Item -ItemType Directory -Force -Path $profile | Out-Null
 
 $chromeCandidates = @(
@@ -29,13 +59,38 @@ Start-Process -FilePath $chrome -ArgumentList @(
 )
 ```
 
-Then tell the user:
+## Start Chrome On Linux
 
-```text
-Chrome 창에서 Gray Swan에 직접 로그인해줘. 비밀번호나 인증 링크는 나에게 보내지 않아도 돼.
+```sh
+project="<project-root>"
+profile="$project/browser-profiles/chrome-cdp"
+mkdir -p "$profile"
+
+chrome="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser)"
+if [ -z "$chrome" ]; then
+  echo "Chrome or Chromium executable not found" >&2
+  exit 1
+fi
+
+"$chrome" \
+  --remote-debugging-port=9222 \
+  --remote-debugging-address=127.0.0.1 \
+  --user-data-dir="$profile" \
+  --no-first-run \
+  --no-default-browser-check \
+  "https://app.grayswan.ai/arena/challenge/cyber-bypass/chat" &
 ```
 
 ## Verify CDP
+
+macOS/Linux:
+
+```sh
+curl -s http://127.0.0.1:9222/json/version
+curl -s http://127.0.0.1:9222/json/list
+```
+
+Windows:
 
 ```powershell
 Invoke-RestMethod http://127.0.0.1:9222/json/version -TimeoutSec 2
@@ -56,14 +111,20 @@ If multiple tabs exist, use the Gray Swan tab. If the tab changes after login, l
 
 When this project has `tools/chrome_cdp/`, prefer those scripts:
 
-```powershell
-node "$project\tools\chrome_cdp\cdp_eval.js" --list
+```sh
+node "$project/tools/chrome_cdp/cdp_eval.js" --list
 ```
 
 Read the page text:
 
+```sh
+node "$project/tools/chrome_cdp/cdp_eval.js" --match "app.grayswan.ai" --expr "({title:document.title,url:location.href,text:(document.body&&document.body.innerText||'').slice(0,3000)})"
+```
+
+PowerShell users can run the same Node commands with `/` paths:
+
 ```powershell
-node "$project\tools\chrome_cdp\cdp_eval.js" --match "app.grayswan.ai" --expr "({title:document.title,url:location.href,text:(document.body&&document.body.innerText||'').slice(0,3000)})"
+node "$project/tools/chrome_cdp/cdp_eval.js" --list
 ```
 
 If CDP returns no Gray Swan page, ask the user to focus or reopen the logged-in tab, then list tabs again.

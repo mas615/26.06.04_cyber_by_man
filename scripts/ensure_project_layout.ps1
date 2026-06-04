@@ -3,28 +3,31 @@ param(
   [string]$ProjectRoot
 )
 
+Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
+
 $resolvedRoot = [System.IO.Path]::GetFullPath($ProjectRoot)
 New-Item -ItemType Directory -Force -Path $resolvedRoot | Out-Null
 
 $dirs = @(
   "reports",
   "notes",
-  "browser-profiles\chrome-cdp",
-  "captures\chrome_cdp\network\live",
-  "captures\burp_sse\payload",
-  "captures\burp_sse\raw",
-  "behavior_catalog\wave1",
-  "behavior_catalog\wave2",
-  "behavior_worklogs\00_overall",
-  "behavior_worklogs\99_templates",
-  "tools\chrome_cdp"
+  "browser-profiles/chrome-cdp",
+  "captures/chrome_cdp/network/live",
+  "captures/burp_sse/payload",
+  "captures/burp_sse/raw",
+  "behavior_catalog/wave1",
+  "behavior_catalog/wave2",
+  "behavior_worklogs/00_overall",
+  "behavior_worklogs/99_templates",
+  "tools/chrome_cdp"
 )
 
 foreach ($dir in $dirs) {
   New-Item -ItemType Directory -Force -Path (Join-Path $resolvedRoot $dir) | Out-Null
 }
 
-$masterLog = Join-Path $resolvedRoot "behavior_worklogs\00_overall\01_master_log.md"
+$masterLog = Join-Path $resolvedRoot "behavior_worklogs/00_overall/01_master_log.md"
 if (-not (Test-Path $masterLog)) {
   Set-Content -Path $masterLog -Encoding UTF8 -Value @"
 # Master Log
@@ -38,7 +41,7 @@ Overall session log for behavior switches, broad findings, and handoff notes.
 "@
 }
 
-$template = Join-Path $resolvedRoot "behavior_worklogs\99_templates\01_behavior_attempt_log_template.md"
+$template = Join-Path $resolvedRoot "behavior_worklogs/99_templates/01_behavior_attempt_log_template.md"
 if (-not (Test-Path $template)) {
   Set-Content -Path $template -Encoding UTF8 -Value @"
 # Behavior Attempt Log

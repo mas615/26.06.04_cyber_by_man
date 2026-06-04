@@ -20,18 +20,21 @@ Important UI rule:
 
 If `tools/chrome_cdp/network_watch.js` exists, start the watcher:
 
-```powershell
-$project = "<project-root>"
-$live = Join-Path $project "captures\chrome_cdp\network\live"
-$scriptDir = Join-Path $project "tools\chrome_cdp"
-New-Item -ItemType Directory -Force -Path $live | Out-Null
+```sh
+project="<project-root>"
+live="$project/captures/chrome_cdp/network/live"
+script_dir="$project/tools/chrome_cdp"
+mkdir -p "$live"
 
-Start-Process -FilePath "node" `
-  -ArgumentList ('network_watch.js --match "app.grayswan.ai" --url-includes "app.grayswan.ai" --out-dir "' + $live + '"') `
-  -WorkingDirectory $scriptDir `
-  -WindowStyle Hidden `
-  -RedirectStandardOutput (Join-Path $live "watcher.stdout.log") `
-  -RedirectStandardError (Join-Path $live "watcher.stderr.log")
+(
+  cd "$script_dir"
+  nohup node network_watch.js \
+    --match "app.grayswan.ai" \
+    --url-includes "app.grayswan.ai" \
+    --out-dir "$live" \
+    > "$live/watcher.stdout.log" \
+    2> "$live/watcher.stderr.log" &
+)
 ```
 
 Common live files:
@@ -48,9 +51,9 @@ captures/chrome_cdp/network/live/status.json
 
 Inspect the latest extracted payloads first:
 
-```powershell
-Get-Content -Raw "$live\request.json"
-Get-Content -Raw "$live\response.json"
+```sh
+cat "$live/request.json"
+cat "$live/response.json"
 ```
 
 ## Burp Or Saved SSE Parsing
@@ -63,15 +66,15 @@ captures/burp_sse/raw/
 
 Then extract payloads:
 
-```powershell
-$project = "<project-root>"
-$skill = "<skill-root>"
-node "$skill\scripts\extract_sse_payloads.js" `
-  --in "$project\captures\burp_sse\raw\latest.txt" `
-  --out-dir "$project\captures\burp_sse\payload"
+```sh
+project="<project-root>"
+skill="<skill-root>"
+node "$skill/scripts/extract_sse_payloads.js" \
+  --in "$project/captures/burp_sse/raw/latest.txt" \
+  --out-dir "$project/captures/burp_sse/payload"
 ```
 
-When running from an installed Codex skill, resolve `<skill-root>` to this skill folder. It is usually under `%USERPROFILE%\.codex\skills\cyber-classifier-workflow` on Windows.
+When running from an installed Codex skill, resolve `<skill-root>` to this skill folder. It is usually under `$HOME/.codex/skills/cyber-classifier-workflow` on macOS/Linux or `%USERPROFILE%\.codex\skills\cyber-classifier-workflow` on Windows.
 
 The script writes only:
 
