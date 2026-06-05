@@ -74,7 +74,7 @@ node "$skill/scripts/extract_sse_payloads.js" \
   --out-dir "$project/captures/burp_sse/payload"
 ```
 
-When running from an installed Codex skill, resolve `<skill-root>` to this skill folder. It is usually under `$HOME/.codex/skills/cyber-classifier-workflow` on macOS/Linux or `%USERPROFILE%\.codex\skills\cyber-classifier-workflow` on Windows.
+When running from an installed skill, resolve `<skill-root>` to this skill folder. Codex installs usually live under `$HOME/.codex/skills/cyber-classifier-workflow` or `%USERPROFILE%\.codex\skills\cyber-classifier-workflow`. Claude Code installs usually live under `$HOME/.claude/skills/cyber-classifier-workflow` or `%USERPROFILE%\.claude\skills\cyber-classifier-workflow`.
 
 The script writes only:
 

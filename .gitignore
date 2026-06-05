@@ -5,6 +5,7 @@ behavior_worklogs/
 behavior_catalog/
 reports/
 notes/
+dist/
 
 # Extracted/private payloads
 request.json

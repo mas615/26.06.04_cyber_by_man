@@ -1,11 +1,11 @@
 ---
 name: cyber-classifier-workflow
-description: "Use when working on a Gray Swan Arena Cyber Bypass or similar cyber-classifier lab session: start Chrome with remote debugging on Windows, macOS, or Linux, ask the user to log in, capture chat/network/SSE api_trace data, parse request and response payloads, collect behavior criteria, configure safe system prompt/script tool/LLM tool experiments, and organize numbered reports and behavior worklogs under the project folder."
+description: "Use for Gray Swan Arena Cyber Bypass or similar cyber-classifier lab work: Chrome CDP capture, SSE parsing, behavior criteria, safe experiments, and numbered reports."
 ---
 
 # Cyber Classifier Workflow
 
-Use this skill to onboard a fresh Codex session into the same collaboration workflow used for the cyber-classifier project. The skill covers setup, observation, capture, parsing, behavior discovery, customization tracking, and file organization. It does not decide the final problem-solving strategy for a behavior.
+Use this skill to onboard a fresh Codex or Claude session into the same collaboration workflow used for the cyber-classifier project. The skill covers setup, observation, capture, parsing, behavior discovery, customization tracking, and file organization. It does not decide the final problem-solving strategy for a behavior.
 
 ## Ground Rules
 
@@ -13,6 +13,7 @@ Use this skill to onboard a fresh Codex session into the same collaboration work
 - Never ask the user for passwords, magic links, cookies, JWTs, or session tokens. Start the browser and ask the user to log in manually.
 - Preserve raw captures separately from analysis. Do not add arbitrary wrapper fields to extracted `request.json` or `response.json`.
 - Keep all new reports numbered. Keep broad conclusions in the overall log and detailed attempts in behavior-specific logs.
+- Resolve bundled script paths from the installed skill directory. Claude Code exposes `${CLAUDE_SKILL_DIR}`; otherwise locate the folder containing this `SKILL.md`.
 
 ## Standard Flow
 

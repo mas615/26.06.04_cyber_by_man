@@ -1,6 +1,6 @@
 # Chrome CDP Setup
 
-Use Chrome remote debugging when the user wants Codex to observe the logged-in browser flow and network-level chat responses.
+Use Chrome remote debugging when the user wants the agent to observe the logged-in browser flow and network-level chat responses.
 
 Windows is the primary documented environment for this workflow. Use the macOS/Linux commands when the same skill is run on those machines. Keep the debug profile inside the user-approved project root.
 
