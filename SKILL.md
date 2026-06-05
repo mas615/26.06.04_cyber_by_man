@@ -1,6 +1,6 @@
 ---
 name: cyber-classifier-workflow
-description: "Use when working on a Gray Swan Arena Cyber Bypass or similar cyber-classifier lab session: start Chrome with remote debugging on macOS, Windows, or Linux, ask the user to log in, capture chat/network/SSE api_trace data, parse request and response payloads, collect behavior criteria, configure safe system prompt/script tool/LLM tool experiments, and organize numbered reports and behavior worklogs under the project folder."
+description: "Use when working on a Gray Swan Arena Cyber Bypass or similar cyber-classifier lab session: start Chrome with remote debugging on Windows, macOS, or Linux, ask the user to log in, capture chat/network/SSE api_trace data, parse request and response payloads, collect behavior criteria, configure safe system prompt/script tool/LLM tool experiments, and organize numbered reports and behavior worklogs under the project folder."
 ---
 
 # Cyber Classifier Workflow
@@ -18,8 +18,8 @@ Use this skill to onboard a fresh Codex session into the same collaboration work
 
 1. Confirm or create the project layout.
    - Read `references/storage-layout.md`.
-   - On macOS/Linux, run `scripts/ensure_project_layout.sh`.
    - On Windows or PowerShell Core, run `scripts/ensure_project_layout.ps1`.
+   - On macOS/Linux, run `scripts/ensure_project_layout.sh`.
 
 2. Start or attach to Chrome CDP.
    - Read `references/chrome-cdp.md`.
@@ -49,13 +49,13 @@ Use this skill to onboard a fresh Codex session into the same collaboration work
 ## Reference Map
 
 - `references/storage-layout.md`: folder structure, numbering, log split, file naming.
-- `references/chrome-cdp.md`: macOS-first Chrome debug launch, Windows/Linux alternatives, login handoff, CDP verification.
+- `references/chrome-cdp.md`: Windows-first Chrome debug launch, macOS/Linux alternatives, login handoff, CDP verification.
 - `references/chat-capture-parsing.md`: chat flow, network watcher, Burp/SSE parsing, `api_trace` meaning.
 - `references/behavior-discovery.md`: behavior selection, criteria extraction, catalog generation.
 - `references/customizations-and-experiments.md`: system prompt, script tools, LLM tools, tags, attempt design.
 
 ## Included Scripts
 
-- `scripts/ensure_project_layout.sh`: creates the expected project folders and starter logs on macOS/Linux.
 - `scripts/ensure_project_layout.ps1`: creates the expected project folders and starter logs from PowerShell.
+- `scripts/ensure_project_layout.sh`: creates the expected project folders and starter logs on macOS/Linux.
 - `scripts/extract_sse_payloads.js`: extracts only `payload.request` and `payload.response` from raw SSE text into `request.json` and `response.json`.
