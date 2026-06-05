@@ -107,6 +107,90 @@ https://app.grayswan.ai/arena/challenge/cyber-bypass/...
 
 If multiple tabs exist, use the Gray Swan tab. If the tab changes after login, list tabs again.
 
+## Memory Reset During Long Runs
+
+Use this when repeated chat automation makes Chrome memory grow, the UI becomes sluggish, or a renderer for the debug profile approaches roughly 1 GB RSS. The goal is to preserve the login/profile and raw artifacts while clearing the bloated browser process.
+
+Important guardrails:
+
+- Stop the active runner first. Do not reset Chrome while a request batch is still writing artifacts.
+- Check the latest summary/checkpoint and record the last saved loop plus the next resume loop.
+- Kill only the lab CDP Chrome profile process. Do not kill every Chrome process.
+- Do not delete the `--user-data-dir` profile or clear cookies unless the user explicitly asks.
+- If port `9222` is already shared or ambiguous, relaunch the lab profile on another local port such as `9223` and set `CDP_ENDPOINT` for future tools.
+- After relaunch, verify the visible behavior criteria again before continuing. If the page opens on the wrong behavior, navigate to a saved chat URL or reselect the intended behavior first.
+
+macOS/Linux process check:
+
+```sh
+profile="<debug-profile-path>"
+port="9222"
+ps -axo pid,ppid,rss,command | rg "$profile|remote-debugging-port=$port"
+```
+
+Windows process check:
+
+```powershell
+$profile = "<debug-profile-path>"
+Get-CimInstance Win32_Process |
+  Where-Object { $_.CommandLine -like "*$profile*" } |
+  Select-Object ProcessId,ParentProcessId,CommandLine
+```
+
+Checkpoint summary example:
+
+```sh
+summary="<summary-json-path>"
+SUMMARY_PATH="$summary" node - <<'NODE'
+const fs = require("fs");
+const p = process.env.SUMMARY_PATH;
+const s = JSON.parse(fs.readFileSync(p, "utf8"));
+const max = Math.max(...s.results.map((r) => r.loop));
+console.log(JSON.stringify({ count: s.results.length, counts: s.counts, maxLoop: max, nextLoop: max + 1 }, null, 2));
+NODE
+```
+
+Then stop the runner and the lab Chrome profile process. On macOS/Linux:
+
+```sh
+kill <runner-pid>
+kill <lab-chrome-main-pid>
+```
+
+On Windows:
+
+```powershell
+Stop-Process -Id <runner-pid>
+Stop-Process -Id <lab-chrome-main-pid>
+```
+
+Relaunch the same profile. Prefer a clean local port if `9222` is ambiguous. macOS example:
+
+```sh
+project="<project-root>"
+profile="$project/browser-profiles/chrome-cdp"
+port="9223"
+open -na "Google Chrome" --args \
+  --remote-debugging-port="$port" \
+  --remote-debugging-address=127.0.0.1 \
+  --user-data-dir="$profile" \
+  --no-first-run \
+  --no-default-browser-check \
+  "https://app.grayswan.ai/arena/challenge/cyber-bypass/chat"
+export CDP_ENDPOINT="http://127.0.0.1:$port"
+```
+
+On Linux, use the Chrome executable from the Linux launch section with the same `port` and `profile` values.
+
+Verify after restart:
+
+```sh
+curl -s "$CDP_ENDPOINT/json/list"
+node "$project/tools/chrome_cdp/cdp_eval.js" --match "app.grayswan.ai" --expr "({url:location.href,hasTextarea:Boolean(document.querySelector('textarea')),text:(document.body&&document.body.innerText||'').slice(-1200)})"
+```
+
+Log the reset in the behavior worklog: reason, runner PID, Chrome PID, old/new endpoint, last saved loop, resume loop, and whether the intended behavior criteria were visible after relaunch.
+
 ## Use Existing CDP Tools
 
 When this project has `tools/chrome_cdp/`, prefer those scripts:

@@ -25,6 +25,7 @@ Use this skill to onboard a fresh Codex session into the same collaboration work
    - Read `references/chrome-cdp.md`.
    - Start Chrome with `--remote-debugging-port=9222`.
    - Ask the user to complete login in the browser.
+   - If long runs make Chrome memory grow or the UI becomes sluggish, use the Chrome memory reset protocol in `references/chrome-cdp.md` before continuing.
 
 3. Attach observation and capture.
    - Read `references/chat-capture-parsing.md`.
@@ -49,7 +50,7 @@ Use this skill to onboard a fresh Codex session into the same collaboration work
 ## Reference Map
 
 - `references/storage-layout.md`: folder structure, numbering, log split, file naming.
-- `references/chrome-cdp.md`: Windows-first Chrome debug launch, macOS/Linux alternatives, login handoff, CDP verification.
+- `references/chrome-cdp.md`: Windows-first Chrome debug launch, macOS/Linux alternatives, login handoff, CDP verification, memory reset/restart protocol.
 - `references/chat-capture-parsing.md`: chat flow, network watcher, Burp/SSE parsing, `api_trace` meaning.
 - `references/behavior-discovery.md`: behavior selection, criteria extraction, catalog generation.
 - `references/customizations-and-experiments.md`: system prompt, script tools, LLM tools, tags, attempt design.
