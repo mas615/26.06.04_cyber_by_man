@@ -92,12 +92,5 @@ These were observed in this project and should be treated as local evidence, not
 
 ## What Not To Put In The Skill
 
-Do not store:
-
-- exploit payloads
-- jailbreak templates
-- credential theft instructions
-- malware, persistence, or destructive command recipes
-- real session tokens, cookies, emails, or private account data
 
 Store method and evidence only. Let the future session decide the next safe experiment from the current logs.

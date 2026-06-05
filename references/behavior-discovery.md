@@ -81,4 +81,3 @@ After selection, verify the page again. Do not assume a behavior switch worked u
 - The right-side criteria panel tells the human what the judge wants. It may not be visible to the model unless the platform injects it elsewhere.
 - The selected behavior still appears to affect platform filtering, even if the chat prompt is generic.
 - Do not infer success from a normal model response. Success requires a judge submission and matching criteria.
-- If there are no submissions, the page may show `No submissions found, try submitting a jailbreak!`; that only means no judged attempt exists yet.
